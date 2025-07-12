@@ -4,6 +4,7 @@ import random
 from urllib.request import Request, urlopen
 from config import headers
 import re
+import os
 
 
 def get_parser():
@@ -14,7 +15,13 @@ def get_parser():
                         help="Jable TV URL to download")
     parser.add_argument("--all-urls", type=str, default="",
                         help="Jable URL contains multiple avs")
-    
+        # 🔽 新增的參數
+    parser.add_argument("--encode", type=int, choices=[0, 1, 2, 3], default=0,
+                        help="Transcode method: 0=No, 1=Remux, 2=NVENC, 3=CPU")
+    parser.add_argument("--output", type=str, default=os.getcwd(),
+                        help="Download output path (absolute path)")
+    parser.add_argument("--no-prompt", action="store_true",
+                        help="Disable all interactive prompts")
     return parser
 
 

@@ -1,26 +1,31 @@
-# author: hcjohn463
+# author: hcjohn463 (mod by Josh)
 #!/usr/bin/env python
 # coding: utf-8
-from args import *
+
+from args import get_parser
 from download import download
-from movies import movieLinks
-# In[2]:
+from movies import movieLinks, av_recommand
 
 parser = get_parser()
-args = parser.parse_args()
+args   = parser.parse_args()
 
-if(len(args.url) != 0):
-    url = args.url
-    download(url)
-elif(args.random == True):
-    url = av_recommand()
-    download(url)
-elif(args.all_urls != ""):
-    all_urls = args.all_urls
-    urls = movieLinks(all_urls)
-    for url in urls:
-        download(url)
+def _dl(target_url: str):
+    download(
+        url            = target_url,
+        encode_method  = int(args.encode),
+        out_dir        = args.output,
+        prompt         = (not args.no_prompt)
+    )
+
+if args.url:
+    _dl(args.url)
+
+elif args.random:
+    _dl(av_recommand())
+
+elif args.all_urls:
+    for u in movieLinks(args.all_urls):
+        _dl(u)
+
 else:
-    # 使用者輸入Jable網址
-    url = input('輸入jable網址:')
-    download(url)
+    _dl(input("輸入 Jable 網址: "))
