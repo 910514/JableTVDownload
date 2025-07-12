@@ -2,9 +2,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from args import get_parser
+from args import *
 from download import download
-from movies import movieLinks, av_recommand
+from movies import movieLinks
 
 parser = get_parser()
 args   = parser.parse_args()
